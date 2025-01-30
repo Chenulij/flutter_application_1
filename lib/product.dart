@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/product_detail.dart';
 import 'add_cart.dart';
-
-
+import 'login_screen.dart'; // Import Login page
+import 'home.dart'; // Import the actual Home page (adjust path if necessary)
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -56,26 +56,18 @@ class _ProductPageState extends State<ProductPage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.black),
-            onPressed: () {},
+            icon: const Icon(Icons.shopping_bag, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AddCartPage(cartItems: []),
+                ),
+              );
+            },
           ),
-          IconButton(
-            icon: const Icon(Icons.account_circle, color: Colors.black),
-            onPressed: () {},
-          ),
-         IconButton(
-  icon: const Icon(Icons.shopping_bag, color: Colors.black),
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const AddCartPage(cartItems: [],), // ✅ Navigate to add_cart.dart
-      ),
-    );
-  },
-),
-
         ],
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       drawer: Drawer(
         child: ListView(
@@ -125,6 +117,28 @@ class _ProductPageState extends State<ProductPage> {
                 _scrollToSection(4);
               },
             ),
+            // Home link now correctly navigates to the home screen
+            ListTile(
+              title: const Text('Home'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const HomePage()), // Navigate to Home page
+                );
+              },
+            ),
+            // Logout link
+            ListTile(
+              title: const Text('Logout'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              },
+            ),
           ],
         ),
       ),
@@ -137,7 +151,7 @@ class _ProductPageState extends State<ProductPage> {
             ProductSection(title: "Laptop Cases", products: laptopCases),
             ProductSection(title: "AirPod Cases", products: airpodCases),
             ProductSection(title: "Accessories", products: accessories),
-            FooterSection(),
+            
           ],
         ),
       ),
@@ -145,41 +159,7 @@ class _ProductPageState extends State<ProductPage> {
   }
 }
 
-class FooterSection extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey[200],
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.tiktok, size: 30, color: Colors.black),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.facebook, size: 30, color: Colors.black),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.play_circle_fill, size: 30, color: Colors.black),
-                onPressed: () {},
-              ),
-            ],
-          ),
-          const SizedBox(height: 5),
-          const Text(
-            "© 2024 Techify. All rights reserved.",
-            style: TextStyle(fontSize: 10, color: Colors.black),
-          ),
-        ],
-      ),
-    );
-  }
-}
+
 
 class ProductSection extends StatelessWidget {
   final String title;
@@ -199,7 +179,7 @@ class ProductSection extends StatelessWidget {
             style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
-              color: Colors.black, // Ensuring black headers
+              color: Colors.black,
             ),
           ),
         ),
