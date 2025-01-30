@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'product_detail.dart';
 import 'add_cart.dart';
-import 'login_screen.dart'; // Import Login page
+import 'login_screen.dart';
 import 'home.dart'; // Import the actual Home page (adjust path if necessary)
 import 'profile.dart'; // Import ProfilePage
 
@@ -45,6 +45,9 @@ class _ProductPageState extends State<ProductPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Get screen orientation (portrait or landscape)
+    var orientation = MediaQuery.of(context).orientation;
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -134,7 +137,7 @@ class _ProductPageState extends State<ProductPage> {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  ProfilePage()), // Navigate to Profile page
+                  MaterialPageRoute(builder: (context) => ProfilePage()), // Navigate to Profile page
                 );
               },
             ),
@@ -155,11 +158,12 @@ class _ProductPageState extends State<ProductPage> {
         controller: _scrollController,
         child: Column(
           children: [
-            ProductSection(title: "Phone Cases", products: phoneCases),
-            ProductSection(title: "Tablet Cases", products: tabletCases),
-            ProductSection(title: "Laptop Cases", products: laptopCases),
-            ProductSection(title: "AirPod Cases", products: airpodCases),
-            ProductSection(title: "Accessories", products: accessories),
+            // Display product sections based on orientation
+            ProductSection(title: "Phone Cases", products: phoneCases, orientation: orientation),
+            ProductSection(title: "Tablet Cases", products: tabletCases, orientation: orientation),
+            ProductSection(title: "Laptop Cases", products: laptopCases, orientation: orientation),
+            ProductSection(title: "AirPod Cases", products: airpodCases, orientation: orientation),
+            ProductSection(title: "Accessories", products: accessories, orientation: orientation),
           ],
         ),
       ),
@@ -170,8 +174,9 @@ class _ProductPageState extends State<ProductPage> {
 class ProductSection extends StatelessWidget {
   final String title;
   final List<Product> products;
+  final Orientation orientation;
 
-  const ProductSection({super.key, required this.title, required this.products});
+  const ProductSection({super.key, required this.title, required this.products, required this.orientation});
 
   @override
   Widget build(BuildContext context) {
@@ -189,8 +194,9 @@ class ProductSection extends StatelessWidget {
             ),
           ),
         ),
+        // Adjust the height of the ListView based on orientation
         SizedBox(
-          height: 170,
+          height: orientation == Orientation.portrait ? 170 : 250, // Make it bigger in landscape mode
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: products.length,
@@ -272,6 +278,7 @@ class Product {
   Product({required this.name, required this.image, required this.price});
 }
 
+// Sample product lists for each category
 final List<Product> phoneCases = [
   Product(name: "Cottage", image: "assets/iphone1.jpg", price: 2000),
   Product(name: "Heat Overload", image: "assets/HeatOver.webp", price: 2000),
@@ -302,10 +309,7 @@ final List<Product> airpodCases = [
 
 final List<Product> accessories = [
   Product(name: "Cottage Ring Holder", image: "assets/pop.webp", price: 1750),
-  Product(name: "Snowy Charm", image: "assets/snowy.webp", price: 4000),
-  Product(name: "Friends Watch", image: "assets/friends.png", price: 3500),
-   Product(name: "Pink Sticky Grip", image: "assets/stickygrip.webp", price: 2450),
+  Product(name: "Camera Lens Protector", image: "assets/lens.jpg", price: 1150),
+  Product(name: "Pouch", image: "assets/pouch.webp", price: 950),
+  Product(name: "Grip", image: "assets/grip.webp", price: 1150),
 ];
-
- 
-

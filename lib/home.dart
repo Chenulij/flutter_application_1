@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    double carouselHeight = screenHeight * 0.4; // 40% of the screen height
+    double carouselHeight = screenHeight * 0.35; // Reduced carousel height to avoid overflow
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -117,114 +117,116 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          // Carousel
-          Padding(
-            padding: const EdgeInsets.only(top: 20.0), // Adjusting the top padding
-            child: Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: carouselHeight,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(images[currentIndex]),
-                      fit: BoxFit.cover,
+      body: SingleChildScrollView( // Wrap the entire body in a scroll view to prevent overflow
+        child: Column(
+          children: [
+            // Carousel (Full Width)
+            Padding(
+              padding: const EdgeInsets.only(top: 20.0),
+              child: Stack(
+                children: [
+                  Container(
+                    width: double.infinity,
+                    height: carouselHeight,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(images[currentIndex]),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                ),
-                Positioned(
-                  top: carouselHeight / 2 - 20,
-                  left: 10,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
-                    onPressed: prevImage,
+                  Positioned(
+                    top: carouselHeight / 2 - 20,
+                    left: 10,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
+                      onPressed: prevImage,
+                    ),
                   ),
-                ),
-                Positioned(
-                  top: carouselHeight / 2 - 20,
-                  right: 10,
-                  child: IconButton(
-                    icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
-                    onPressed: nextImage,
+                  Positioned(
+                    top: carouselHeight / 2 - 20,
+                    right: 10,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_forward_ios, color: Colors.white),
+                      onPressed: nextImage,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
 
-          // Product Section (Side by Side)
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Product 1
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigate to the product detail page
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Image.asset(
-                        'assets/iphone16.jpg',
-                        width: screenWidth * 0.4, // Responsive width
-                        height: 200,
-                        fit: BoxFit.contain,
+            // Product Section (Two images below the carousel)
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Product 1
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        // Navigate to the product detail page
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Image.asset(
+                          'assets/iphone16.jpg',
+                          width: screenWidth * 0.45, // Making the image bigger
+                          height: 250, // Adjusting height for better visibility
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(width: 16), // Space between images
+                  const SizedBox(width: 16), // Space between images
 
-                // Product 2
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      // Navigate to the product detail page
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.all(8.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 4,
-                            offset: Offset(0, 2),
-                          ),
-                        ],
-                      ),
-                      child: Image.asset(
-                        'assets/ClearCases.jpg',
-                        width: screenWidth * 0.4, // Responsive width
-                        height: 200,
-                        fit: BoxFit.contain,
+                  // Product 2
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () {
+                        // Navigate to the product detail page
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black26,
+                              blurRadius: 4,
+                              offset: Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Image.asset(
+                          'assets/ClearCases.jpg',
+                          width: screenWidth * 0.45, // Making the image bigger
+                          height: 250, // Adjusting height for better visibility
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
 
-          // Spacer to push the footer to the bottom
-          const Expanded(child: SizedBox.shrink()),
-        ],
+            // Spacer to push the footer to the bottom
+            const SizedBox(height: 20),
+          ],
+        ),
       ),
     );
   }

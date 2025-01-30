@@ -161,7 +161,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
                   const SizedBox(height: 20),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
                         onPressed: () {
@@ -244,8 +244,8 @@ class ProductCard extends StatelessWidget {
               );
             },
             child: Container(
-              width: 100,
-              height: 120,
+              width: 110,
+              height: 140,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 image: DecorationImage(
