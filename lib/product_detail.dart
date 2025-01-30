@@ -96,9 +96,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ),
         ],
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black), // Set the back arrow color to black
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            Navigator.pop(context); // Go back to the previous page
+            Navigator.pop(context);
           },
         ),
       ),
@@ -235,7 +235,13 @@ class ProductCard extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () {
-              // Navigate to product detail page (if needed)
+              // Navigate to product detail page when a product is tapped
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProductDetailPage(product: product),
+                ),
+              );
             },
             child: Container(
               width: 100,

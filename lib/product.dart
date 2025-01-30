@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/product_detail.dart';
+import 'product_detail.dart';
 import 'add_cart.dart';
 import 'login_screen.dart'; // Import Login page
 import 'home.dart'; // Import the actual Home page (adjust path if necessary)
@@ -219,8 +219,14 @@ class ProductCard extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => ProductDetailPage(product: product),
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: ProductDetailPage(product: product),
+                    );
+                  },
+                  transitionDuration: const Duration(milliseconds: 500),
                 ),
               );
             },
@@ -298,4 +304,8 @@ final List<Product> accessories = [
   Product(name: "Cottage Ring Holder", image: "assets/pop.webp", price: 1750),
   Product(name: "Snowy Charm", image: "assets/snowy.webp", price: 4000),
   Product(name: "Friends Watch", image: "assets/friends.png", price: 3500),
+   Product(name: "Pink Sticky Grip", image: "assets/stickygrip.webp", price: 2450),
 ];
+
+ 
+

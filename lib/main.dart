@@ -17,7 +17,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.light(primary: Colors.grey.shade900),
         useMaterial3: true,
       ),
-      darkTheme: ThemeData.dark(),
+      darkTheme: ThemeData(
+        colorScheme: ColorScheme.dark(primary: Colors.grey.shade300),
+        useMaterial3: true,
+      ),
+      themeMode: ThemeMode.system, // Automatically follow system theme
       home: const LoginScreen(),  // Start with the LoginScreen
     );
   }
