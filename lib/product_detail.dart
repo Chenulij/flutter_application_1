@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'product.dart';
-import 'add_cart.dart'; // ✅ Import AddCartPage
+import 'add_cart.dart';
 
 class ProductDetailPage extends StatefulWidget {
   final Product product;
@@ -12,16 +12,38 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
-  List<Product> cartItems = []; // ✅ Cart List to Store Added Items
+  List<Product> cartItems = [];
 
   void addToCart(Product product) {
     setState(() {
-      cartItems.add(product); // ✅ Add Product to Cart
+      cartItems.add(product);
     });
 
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Item added to cart!")),
     );
+  }
+
+  // ✅ Function to get description based on product name
+  String getDescription(String productName) {
+    Map<String, String> descriptions = {
+      "Cottage": "A cozy aesthetic case with soft pastel tones.",
+      "Heat Overload": "A fiery and bold case for those who love a statement piece.",
+      "Blue Waves": "An ocean-inspired case with a soothing wave pattern.",
+      "Heart Breaker": "A trendy heart-patterned case for a stylish touch.",
+      "Checkered": "A classic checkered design for a retro look.",
+      "Teddy": "A soft teddy bear-themed case for ultimate cuteness.",
+      "Cherry Blast": "A vibrant cherry-themed case, perfect for bold personalities.",
+      "Siren Flower": "An elegant floral design inspired by nature.",
+      "Candy Love": "A sweet and colorful case with candy-like patterns.",
+      "Star Blue": "A galaxy-themed case for space lovers.",
+      "Seashell": "A beach-inspired case with seashell imprints.",
+      "Snowy Charm": "A winter-themed case with delicate snowflakes.",
+      "Friends Watch Strap": "A stylish and comfortable watch strap for everyday use.",
+      "Pink Sticky Grip": "A handy and stylish sticky grip for better phone handling."
+    };
+
+    return descriptions[productName] ?? "A stylish and high-quality case designed for durability and aesthetics.";
   }
 
   @override
@@ -50,7 +72,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               IconButton(
                 icon: const Icon(Icons.shopping_bag, color: Colors.black),
                 onPressed: () {
-                  // ✅ Navigate to AddCartPage & Pass Cart Items
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -59,7 +80,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   );
                 },
               ),
-              if (cartItems.isNotEmpty) // ✅ Show Item Count Badge
+              if (cartItems.isNotEmpty)
                 Positioned(
                   right: 8,
                   top: 8,
@@ -108,13 +129,26 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     ),
                   ),
                   const SizedBox(height: 20),
+
+                  // ✅ Display the product description
+                  const Text(
+                    "Description",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    getDescription(widget.product.name), // ✅ Get description dynamically
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 20),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      
                       ElevatedButton(
                         onPressed: () {
-                          addToCart(widget.product); // ✅ Add Item to Cart
+                          addToCart(widget.product);
                         },
                         style: ElevatedButton.styleFrom(
                           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
@@ -127,7 +161,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ],
               ),
             ),
-             FooterSection(),
+            FooterSection(),
           ],
         ),
       ),

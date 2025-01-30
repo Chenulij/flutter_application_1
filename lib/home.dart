@@ -208,8 +208,7 @@ class _HomePageState extends State<HomePage> {
           // Spacer to push the footer to the bottom
           const Expanded(child: SizedBox.shrink()),
 
-          // Footer Section
-          FooterSection(),
+        
         ],
       ),
     );
