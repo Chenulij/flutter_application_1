@@ -199,48 +199,10 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
           ),
-          FooterSection(), // ✅ Footer remains at the bottom
+          
         ],
       ),
     );
   }
 }
 
-// Footer Section (same as in LoginScreen)
-class FooterSection extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey[200],
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.tiktok, size: 30, color: Colors.black),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.facebook, size: 30, color: Colors.black),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.play_circle_fill, size: 30, color: Colors.black),
-                onPressed: () {},
-              ),
-            ],
-          ),
-          const SizedBox(height: 5),
-          const Text(
-            "© 2024 Techify. All rights reserved.",
-            style: TextStyle(fontSize: 10, color: Colors.black),
-          ),
-        ],
-      ),
-    );
-  }
-}
