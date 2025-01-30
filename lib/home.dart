@@ -72,6 +72,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () {},
           ),
         ],
+        iconTheme: IconThemeData(color: Colors.black), // Changing hamburger icon color to black
       ),
       drawer: Drawer(
         child: ListView(
@@ -86,15 +87,24 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-           
             ListTile(
-              title: const Text('Product '),
+              title: const Text('Product'),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ProductPage()), // Navigate to ProductPage
                 );
+              },
+            ),
+            ListTile(
+              title: const Text('Logout'),
+              onTap: () {
+                // Handle logout functionality here
+                // For example, navigate to login screen or clear user session
+                Navigator.pop(context); // Close the drawer
+                // You can implement your logout logic here
+                print("Logged out");
               },
             ),
           ],
@@ -207,8 +217,6 @@ class _HomePageState extends State<HomePage> {
 
           // Spacer to push the footer to the bottom
           const Expanded(child: SizedBox.shrink()),
-
-        
         ],
       ),
     );
