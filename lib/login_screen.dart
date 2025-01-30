@@ -54,7 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: Colors.black, // Make text black
-                            fontFamily: 'Roboto', // Apply Roboto font
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -64,11 +63,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _usernameController,
                           decoration: const InputDecoration(
                             labelText: 'Username',
-                            labelStyle: TextStyle(color: Colors.black, fontFamily: 'Roboto'),
+                            labelStyle: TextStyle(color: Colors.black),
                             border: OutlineInputBorder(),
                             prefixIcon: Icon(Icons.person, color: Colors.black),
                           ),
-                          style: const TextStyle(color: Colors.black, fontFamily: 'Roboto'),
+                          style: const TextStyle(color: Colors.black),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your username';
@@ -84,11 +83,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: true,
                           decoration: const InputDecoration(
                             labelText: 'Password',
-                            labelStyle: TextStyle(color: Colors.black, fontFamily: 'Roboto'),
+                            labelStyle: TextStyle(color: Colors.black),
                             border: OutlineInputBorder(),
                             prefixIcon: Icon(Icons.lock, color: Colors.black),
                           ),
-                          style: const TextStyle(color: Colors.black, fontFamily: 'Roboto'),
+                          style: const TextStyle(color: Colors.black),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your password';
@@ -125,10 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             backgroundColor: Colors.black,
                             foregroundColor: Colors.white,
                           ),
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(fontFamily: 'Roboto'),
-                          ),
+                          child: const Text('Login'),
                         ),
                         const SizedBox(height: 20),
 
@@ -136,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text("Don't have an account? ", style: TextStyle(color: Colors.black, fontFamily: 'Roboto')),
+                            const Text("Don't have an account? ", style: TextStyle(color: Colors.black)),
                             GestureDetector(
                               onTap: () {
                                 Navigator.push(
@@ -149,7 +145,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
-                                  fontFamily: 'Roboto',
                                 ),
                               ),
                             ),
@@ -169,3 +164,4 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+

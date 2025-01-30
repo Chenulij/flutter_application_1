@@ -3,6 +3,7 @@ import 'package:flutter_application_1/product_detail.dart';
 import 'add_cart.dart';
 import 'login_screen.dart'; // Import Login page
 import 'home.dart'; // Import the actual Home page (adjust path if necessary)
+import 'profile.dart'; // Import ProfilePage
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -124,6 +125,16 @@ class _ProductPageState extends State<ProductPage> {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => const HomePage()), // Navigate to Home page
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Profile'),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  ProfilePage()), // Navigate to Profile page
                 );
               },
             ),
@@ -286,6 +297,5 @@ final List<Product> airpodCases = [
 final List<Product> accessories = [
   Product(name: "Cottage Ring Holder", image: "assets/pop.webp", price: 1750),
   Product(name: "Snowy Charm", image: "assets/snowy.webp", price: 4000),
-  Product(name: "Friends Watch Strap", image: "assets/friends.jpg", price: 2750),
-  Product(name: "Pink Sticky Grip", image: "assets/stickygrip.webp", price: 2450),
+  Product(name: "Friends Watch", image: "assets/friends.png", price: 3500),
 ];

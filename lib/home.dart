@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'product.dart'; // Importing the ProductPage
+import 'profile.dart'; // Import ProfilePage (ensure the file exists)
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -90,6 +91,16 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => ProductPage()), // Navigate to ProductPage
+                );
+              },
+            ),
+            ListTile(
+              title: const Text('Profile', style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w500)),
+              onTap: () {
+                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>  ProfilePage()), // Navigate to ProfilePage
                 );
               },
             ),
