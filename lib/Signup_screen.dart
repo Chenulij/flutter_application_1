@@ -199,10 +199,8 @@ class SignUpScreen extends StatelessWidget {
               ),
             ),
           ),
-          
         ],
       ),
     );
   }
 }
-

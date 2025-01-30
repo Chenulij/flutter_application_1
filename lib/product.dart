@@ -117,7 +117,6 @@ class _ProductPageState extends State<ProductPage> {
                 _scrollToSection(4);
               },
             ),
-            // Home link now correctly navigates to the home screen
             ListTile(
               title: const Text('Home'),
               onTap: () {
@@ -128,7 +127,6 @@ class _ProductPageState extends State<ProductPage> {
                 );
               },
             ),
-            // Logout link
             ListTile(
               title: const Text('Logout'),
               onTap: () {
@@ -151,15 +149,12 @@ class _ProductPageState extends State<ProductPage> {
             ProductSection(title: "Laptop Cases", products: laptopCases),
             ProductSection(title: "AirPod Cases", products: airpodCases),
             ProductSection(title: "Accessories", products: accessories),
-            
           ],
         ),
       ),
     );
   }
 }
-
-
 
 class ProductSection extends StatelessWidget {
   final String title;
@@ -176,7 +171,7 @@ class ProductSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
           child: Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
               color: Colors.black,
@@ -231,8 +226,21 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          Text(product.name, style: const TextStyle(fontSize: 14, color: Colors.black)),
-          Text("LKR. ${product.price}", style: const TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold)),
+          Text(
+            product.name,
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.black,
+            ),
+          ),
+          Text(
+            "LKR. ${product.price}",
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ],
       ),
     );

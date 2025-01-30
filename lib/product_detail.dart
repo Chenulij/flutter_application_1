@@ -126,6 +126,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       fontSize: 22, 
                       fontWeight: FontWeight.bold, 
                       color: Colors.black,
+                      fontFamily: 'Roboto',  // Apply custom font
                     ),
                   ),
                   const SizedBox(height: 10),
@@ -135,12 +136,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       fontSize: 18,
                       color: Colors.green,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'Roboto',  // Apply custom font
                     ),
                   ),
                   const SizedBox(height: 20),
                   const Text(
                     "Description",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
+                    style: TextStyle(
+                      fontSize: 18, 
+                      fontWeight: FontWeight.bold, 
+                      color: Colors.black,
+                      fontFamily: 'Roboto',  // Apply custom font
+                    ),
                   ),
                   const SizedBox(height: 4),
                   Text(
@@ -149,6 +156,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     style: const TextStyle(
                       fontSize: 16, 
                       color: Colors.black, 
+                      fontFamily: 'Roboto',  // Apply custom font
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -163,7 +171,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                           backgroundColor: Colors.black,
                         ),
-                        child: const Text("Add To Cart", style: TextStyle(color: Colors.white)),
+                        child: const Text(
+                          "Add To Cart", 
+                          style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),  // Apply custom font
+                        ),
                       ),
                     ],
                   ),
@@ -181,7 +192,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
                       "Products You May Like",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                      style: TextStyle(
+                        fontSize: 20, 
+                        fontWeight: FontWeight.bold, 
+                        color: Colors.black,
+                        fontFamily: 'Roboto',  // Apply custom font
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -234,8 +250,23 @@ class ProductCard extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          Text(product.name, style: const TextStyle(fontSize: 14, color: Colors.black)),
-          Text("LKR. ${product.price}", style: const TextStyle(fontSize: 12, color: Colors.black, fontWeight: FontWeight.bold)),
+          Text(
+            product.name,
+            style: const TextStyle(
+              fontSize: 14, 
+              color: Colors.black,
+              fontFamily: 'Roboto',  // Apply custom font
+            ),
+          ),
+          Text(
+            "LKR. ${product.price}",
+            style: const TextStyle(
+              fontSize: 12, 
+              color: Colors.black, 
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Roboto',  // Apply custom font
+            ),
+          ),
         ],
       ),
     );

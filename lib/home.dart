@@ -60,10 +60,6 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.search, color: Colors.black),
-            onPressed: () {},
-          ),
-          IconButton(
             icon: const Icon(Icons.account_circle, color: Colors.black),
             onPressed: () {},
           ),
@@ -83,12 +79,12 @@ class _HomePageState extends State<HomePage> {
               child: Center(
                 child: Text(
                   'Categories',
-                  style: TextStyle(color: Colors.black, fontSize: 20),
+                  style: TextStyle(color: Colors.black, fontSize: 20, fontFamily: 'Roboto', fontWeight: FontWeight.w700),
                 ),
               ),
             ),
             ListTile(
-              title: const Text('Product'),
+              title: const Text('Product', style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w500)),
               onTap: () {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
@@ -98,7 +94,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              title: const Text('Logout'),
+              title: const Text('Logout', style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w500)),
               onTap: () {
                 // Handle logout functionality here
                 // For example, navigate to login screen or clear user session
@@ -217,44 +213,6 @@ class _HomePageState extends State<HomePage> {
 
           // Spacer to push the footer to the bottom
           const Expanded(child: SizedBox.shrink()),
-        ],
-      ),
-    );
-  }
-}
-
-class FooterSection extends StatelessWidget {
-  const FooterSection({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey[200],
-      padding: const EdgeInsets.all(10),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.tiktok, size: 30, color: Colors.black),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.facebook, size: 30, color: Colors.black),
-                onPressed: () {},
-              ),
-              IconButton(
-                icon: const Icon(Icons.play_circle_fill, size: 30, color: Colors.black),
-                onPressed: () {},
-              ),
-            ],
-          ),
-          const SizedBox(height: 5),
-          const Text(
-            "© 2024 Techify. All rights reserved.",
-            style: TextStyle(fontSize: 10, color: Colors.black),
-          ),
         ],
       ),
     );
