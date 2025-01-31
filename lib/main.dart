@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';  // Import the LoginScreen widget
+import 'login_screen.dart';  
 
 void main() {
   runApp(const MyApp());
@@ -21,8 +21,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.dark(primary: Colors.grey.shade300),
         useMaterial3: true,
       ),
-      themeMode: ThemeMode.system, // Automatically follow system theme
-      home: const LoginScreen(),  // Start with the LoginScreen
+      themeMode: ThemeMode.system, 
+      home: const LoginScreen(),  
     );
   }
 }

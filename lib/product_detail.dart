@@ -14,7 +14,7 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   List<Product> cartItems = [];
 
-  // List of all available products for "Products You May Like" section
+ 
   List<Product> allProducts = [
     Product(name: "Cottage", image: "assets/cot.webp", price: 2450),
     Product(name: "Heat Overload", image: "assets/HeatOver.webp", price: 3000),
@@ -34,7 +34,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     );
   }
 
-  // Function to get description based on product name
+  
   String getDescription(String productName) {
     Map<String, String> descriptions = {
       "Cottage": "A cozy aesthetic case with soft pastel tones.",
@@ -50,12 +50,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Dark mode compatibility
+  
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final textColor = colorScheme.onBackground;
 
-    // Remove current product from "You May Like" section
+   
     List<Product> suggestedProducts = allProducts.where((p) => p.name != widget.product.name).toList();
 
     return Scaffold(
@@ -152,7 +152,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
-                  height: 170, // Keep a fixed height for the product carousel
+                  height: 170, 
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: suggestedProducts.length,

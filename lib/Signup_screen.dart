@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart'; // Import LoginScreen to navigate back
-import 'home.dart'; // Import HomePage widget
+import 'home.dart'; 
+import 'login_screen.dart'; 
 
 class SignUpScreen extends StatelessWidget {
   final _emailController = TextEditingController();
@@ -9,7 +9,6 @@ class SignUpScreen extends StatelessWidget {
   final _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  // Hardcoded sign-up details
   final String _hardcodedEmail = 'user@gmail.com';
   final String _hardcodedUsername = 'User';
   final String _hardcodedPassword = 'User123';
@@ -18,59 +17,55 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context); // Get the current theme
+    final theme = Theme.of(context); 
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background, // Use background color from the theme
+      backgroundColor: theme.colorScheme.background, 
       appBar: AppBar(
-        backgroundColor: theme.appBarTheme.backgroundColor, // AppBar background color based on theme
+        backgroundColor: theme.appBarTheme.backgroundColor, 
         elevation: 0,
         centerTitle: true,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset('assets/logo2.png', height: 30), // Add logo here
+            Image.asset('assets/logo2.png', height: 30), 
             const SizedBox(width: 8),
           ],
         ),
       ),
       body: LayoutBuilder(
         builder: (context, constraints) {
-          // Adjust layout based on orientation
           return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween, // Keeps footer at bottom
+            mainAxisAlignment: MainAxisAlignment.spaceBetween, 
             children: [
               Expanded(
-                child: Center( // ✅ Centers the form vertically
+                child: Center( 
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Form(
                         key: _formKey,
                         child: Column(
-                          mainAxisSize: MainAxisSize.min, // Prevents unnecessary expansion
+                          mainAxisSize: MainAxisSize.min, 
                           children: [
-                            // WELCOME BACK message
                             Text(
                               'CREATE ACCOUNT',
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
-                                color: theme.textTheme.titleLarge?.color, // Title text color based on theme
+                                color: theme.textTheme.titleLarge?.color, 
                               ),
                             ),
                             const SizedBox(height: 20),
-
-                            // Email Field
                             TextFormField(
                               controller: _emailController,
                               decoration: InputDecoration(
                                 labelText: 'Email',
-                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), // Label text color based on theme
+                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), 
                                 border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.email, color: theme.iconTheme.color), // Icon color based on theme
+                                prefixIcon: Icon(Icons.email, color: theme.iconTheme.color),
                               ),
-                              style: TextStyle(color: theme.textTheme.bodyLarge?.color), // Text input color based on theme
+                              style: TextStyle(color: theme.textTheme.bodyLarge?.color),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your email';
@@ -79,17 +74,15 @@ class SignUpScreen extends StatelessWidget {
                               },
                             ),
                             const SizedBox(height: 20),
-
-                            // Username Field
                             TextFormField(
                               controller: _usernameController,
                               decoration: InputDecoration(
                                 labelText: 'Username',
-                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), // Label color based on theme
+                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), 
                                 border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.person, color: theme.iconTheme.color), // Icon color based on theme
+                                prefixIcon: Icon(Icons.person, color: theme.iconTheme.color), 
                               ),
-                              style: TextStyle(color: theme.textTheme.bodyLarge?.color), // Input text color based on theme
+                              style: TextStyle(color: theme.textTheme.bodyLarge?.color), 
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your username';
@@ -98,18 +91,16 @@ class SignUpScreen extends StatelessWidget {
                               },
                             ),
                             const SizedBox(height: 20),
-
-                            // Password Field
                             TextFormField(
                               controller: _passwordController,
                               obscureText: true,
                               decoration: InputDecoration(
                                 labelText: 'Password',
-                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), // Label color based on theme
+                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), 
                                 border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.lock, color: theme.iconTheme.color), // Icon color based on theme
+                                prefixIcon: Icon(Icons.lock, color: theme.iconTheme.color), 
                               ),
-                              style: TextStyle(color: theme.textTheme.bodyLarge?.color), // Input text color based on theme
+                              style: TextStyle(color: theme.textTheme.bodyLarge?.color), 
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your password';
@@ -118,18 +109,16 @@ class SignUpScreen extends StatelessWidget {
                               },
                             ),
                             const SizedBox(height: 20),
-
-                            // Confirm Password Field
                             TextFormField(
                               controller: _confirmPasswordController,
                               obscureText: true,
                               decoration: InputDecoration(
                                 labelText: 'Confirm Password',
-                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), // Label color based on theme
+                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), 
                                 border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.lock, color: theme.iconTheme.color), // Icon color based on theme
+                                prefixIcon: Icon(Icons.lock, color: theme.iconTheme.color), 
                               ),
-                              style: TextStyle(color: theme.textTheme.bodyLarge?.color), // Input text color based on theme
+                              style: TextStyle(color: theme.textTheme.bodyLarge?.color), 
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please confirm your password';
@@ -141,19 +130,15 @@ class SignUpScreen extends StatelessWidget {
                               },
                             ),
                             const SizedBox(height: 20),
-
-                            // Sign Up Button
                             ElevatedButton(
                               onPressed: () {
                                 if (_formKey.currentState?.validate() ?? false) {
-                                  // Check if the entered details match the hardcoded values
                                   if (_emailController.text == _hardcodedEmail &&
                                       _usernameController.text == _hardcodedUsername &&
                                       _passwordController.text == _hardcodedPassword) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       const SnackBar(content: Text('Registration Successful!')),
                                     );
-                                    // After successful registration, navigate to HomeScreen
                                     Future.delayed(const Duration(seconds: 2), () {
                                       Navigator.pushReplacement(
                                         context,
@@ -169,14 +154,16 @@ class SignUpScreen extends StatelessWidget {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(double.infinity, 50),
-                                backgroundColor: theme.primaryColor, // Button color based on theme
-                                foregroundColor: theme.colorScheme.onPrimary, // Text color on button
+                                backgroundColor: theme.brightness == Brightness.dark
+                                    ? Colors.white
+                                    : theme.primaryColor,
+                                foregroundColor: theme.brightness == Brightness.dark
+                                    ? Colors.black
+                                    : theme.colorScheme.onPrimary,
                               ),
                               child: const Text('Register'),
                             ),
                             const SizedBox(height: 20),
-
-                            // Already have an account? Redirect to login
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -198,7 +185,7 @@ class SignUpScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 30), // Extra space before footer
+                            const SizedBox(height: 30), 
                           ],
                         ),
                       ),
@@ -213,4 +200,3 @@ class SignUpScreen extends StatelessWidget {
     );
   }
 }
-

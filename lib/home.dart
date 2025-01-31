@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart'; // Import LoginScreen
-import 'product.dart'; // Importing the ProductPage
-import 'profile.dart'; // Import ProfilePage (ensure the file exists)
+import 'login_screen.dart'; 
+import 'product.dart'; 
+import 'profile.dart'; 
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -36,11 +36,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final textColor = colorScheme.onBackground; // Adaptive text color
+    final textColor = colorScheme.onBackground; 
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    double carouselHeight = screenHeight * 0.35; // Reduced carousel height to avoid overflow
+    double carouselHeight = screenHeight * 0.35; 
 
     return Scaffold(
       backgroundColor: colorScheme.background,
@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
         iconTheme: IconThemeData(color: textColor),
       ),
       drawer: Drawer(
-        backgroundColor: colorScheme.surface, // Adaptive drawer color
+        backgroundColor: colorScheme.surface, 
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -85,7 +85,7 @@ class _HomePageState extends State<HomePage> {
               Navigator.pop(context); // Close the drawer
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()), // Navigate to LoginScreen
+                MaterialPageRoute(builder: (context) => const LoginScreen()), 
               );
             }, textColor),
           ],
@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
     return Expanded(
       child: GestureDetector(
         onTap: () {
-          // Navigate to the product detail page
+         
         },
         child: Container(
           padding: const EdgeInsets.all(8.0),

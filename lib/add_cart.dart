@@ -19,21 +19,21 @@ class _AddCartPageState extends State<AddCartPage> {
       return;
     }
 
-    // ✅ Show Order Confirmation Message
+    // Show Order Confirmation Message
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Order Confirmed", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w700)), // Use SemiBold font
-        content: const Text("Your order has been placed successfully.", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w400)), // Use Regular font
+        title: const Text("Order Confirmed", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w700)), 
+        content: const Text("Your order has been placed successfully.", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w400)), 
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog
+              Navigator.of(context).pop(); 
               setState(() {
-                widget.cartItems.clear(); // ✅ Clear the cart
+                widget.cartItems.clear(); 
               });
             },
-            child: const Text("OK", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w500)), // Medium weight font
+            child: const Text("OK", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w500)),
           ),
         ],
       ),
@@ -42,15 +42,15 @@ class _AddCartPageState extends State<AddCartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context); // Get current theme
+    final theme = Theme.of(context); 
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background, // Dynamic background color
+      backgroundColor: theme.colorScheme.background, 
       appBar: AppBar(
-        title: const Text("Your Cart", style: TextStyle(fontFamily: 'Roboto', color: Colors.black, fontWeight: FontWeight.w500)), // Use Medium weight for the title
-        backgroundColor: theme.appBarTheme.backgroundColor, // AppBar background color
-        elevation: 0, // Remove the AppBar shadow
-        iconTheme: IconThemeData(color: theme.iconTheme.color), // Set AppBar icons color dynamically
+        title: const Text("Your Cart", style: TextStyle(fontFamily: 'Roboto', color: Colors.black, fontWeight: FontWeight.w500)), 
+        backgroundColor: theme.appBarTheme.backgroundColor, 
+        elevation: 0, 
+        iconTheme: IconThemeData(color: theme.iconTheme.color), 
       ),
       body: widget.cartItems.isEmpty
           ? Center(
@@ -58,7 +58,7 @@ class _AddCartPageState extends State<AddCartPage> {
                 "Cart is empty!",
                 style: TextStyle(
                   fontSize: 18,
-                  color: theme.colorScheme.onBackground, // Dynamic text color
+                  color: theme.colorScheme.onBackground, 
                   fontFamily: 'Roboto',
                 ),
               ),
@@ -73,7 +73,7 @@ class _AddCartPageState extends State<AddCartPage> {
                     product.name,
                     style: TextStyle(
                       fontFamily: 'Roboto',
-                      color: theme.colorScheme.onBackground, // Dynamic text color
+                      color: theme.colorScheme.onBackground, 
                       fontWeight: FontWeight.w400,
                     ),
                   ),
@@ -81,15 +81,15 @@ class _AddCartPageState extends State<AddCartPage> {
                     "LKR. ${product.price}",
                     style: TextStyle(
                       fontFamily: 'Roboto',
-                      color: theme.colorScheme.onBackground, // Dynamic text color
+                      color: theme.colorScheme.onBackground, 
                       fontWeight: FontWeight.w400,
                     ),
                   ),
                   trailing: IconButton(
-                    icon: Icon(Icons.delete, color: theme.colorScheme.error), // Use error color for delete button
+                    icon: Icon(Icons.delete, color: theme.colorScheme.error), 
                     onPressed: () {
                       setState(() {
-                        widget.cartItems.removeAt(index); // Remove item from cart
+                        widget.cartItems.removeAt(index); // Remove Product from cart
                       });
                     },
                   ),
@@ -99,17 +99,17 @@ class _AddCartPageState extends State<AddCartPage> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(10.0),
         child: ElevatedButton(
-          onPressed: proceedToCheckout, // ✅ Calls the function to show message
+          onPressed: proceedToCheckout, 
           style: ElevatedButton.styleFrom(
-            backgroundColor: theme.colorScheme.primary, // Dynamic button background color
-            foregroundColor: theme.colorScheme.onPrimary, // Dynamic button text color
+            backgroundColor: theme.colorScheme.primary, 
+            foregroundColor: theme.colorScheme.onPrimary, 
           ),
           child: Text(
             "Proceed to Checkout",
             style: TextStyle(
               fontFamily: 'Roboto',
-              color: theme.colorScheme.onPrimary, // Dynamic button text color
-              fontWeight: FontWeight.w700, // SemiBold font for button text
+              color: theme.colorScheme.onPrimary, 
+              fontWeight: FontWeight.w700, 
             ),
           ),
         ),

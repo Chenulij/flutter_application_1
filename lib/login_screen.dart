@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'home.dart'; // Import HomePage
-import 'Signup_screen.dart'; // Import SignUpScreen
+import 'home.dart'; 
+import 'Signup_screen.dart'; 
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context); // Get current theme
+    final theme = Theme.of(context); 
 
     return Scaffold(
       backgroundColor: theme.colorScheme.background,
@@ -56,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
-                                color: theme.colorScheme.onBackground, // Dynamic text color
+                                color: theme.colorScheme.onBackground, 
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(double.infinity, 50),
-                                backgroundColor: theme.colorScheme.primary, // Use theme primary color
+                                backgroundColor: theme.colorScheme.primary, 
                                 foregroundColor: theme.colorScheme.onPrimary,
                               ),
                               child: const Text('Login'),
