@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'product_detail.dart';
 import 'add_cart.dart';
 import 'login_screen.dart';
-import 'home.dart'; // Import the actual Home page (adjust path if necessary)
-import 'profile.dart'; // Import ProfilePage
+import 'home.dart';
+import 'profile.dart';
 
 class ProductPage extends StatefulWidget {
   const ProductPage({super.key});
@@ -18,139 +18,65 @@ class _ProductPageState extends State<ProductPage> {
   void _scrollToSection(int index) {
     double offset = 0;
     switch (index) {
-      case 0:
-        offset = 0;
-        break;
-      case 1:
-        offset = 350;
-        break;
-      case 2:
-        offset = 700;
-        break;
-      case 3:
-        offset = 1050;
-        break;
-      case 4:
-        offset = 1400;
-        break;
-      default:
-        offset = 0;
+      case 0: offset = 0; break;
+      case 1: offset = 350; break;
+      case 2: offset = 700; break;
+      case 3: offset = 1050; break;
+      case 4: offset = 1400; break;
+      default: offset = 0;
     }
     _scrollController.animateTo(
-      offset,
-      duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
+      offset, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Get screen orientation (portrait or landscape)
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textColor = colorScheme.onBackground;
+
     var orientation = MediaQuery.of(context).orientation;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(238, 238, 238, 238),
+        backgroundColor: colorScheme.surface,
         elevation: 0,
         centerTitle: true,
-        title: Image.asset(
-          'assets/logo2.png',
-          height: 40,
-        ),
+        title: Image.asset('assets/logo2.png', height: 40),
         actions: [
           IconButton(
-            icon: const Icon(Icons.shopping_bag, color: Colors.black),
+            icon: Icon(Icons.shopping_bag, color: textColor),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const AddCartPage(cartItems: []),
-                ),
+                MaterialPageRoute(builder: (context) => const AddCartPage(cartItems: [])),
               );
             },
           ),
         ],
-        iconTheme: const IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: textColor),
       ),
       drawer: Drawer(
+        backgroundColor: colorScheme.surface,
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(color: Colors.white),
+            DrawerHeader(
+              decoration: BoxDecoration(color: colorScheme.surface),
               child: Center(
-                child: Text(
-                  'Categories',
-                  style: TextStyle(color: Colors.black, fontSize: 20),
-                ),
+                child: Text('Categories', style: TextStyle(color: textColor, fontSize: 20)),
               ),
             ),
-            ListTile(
-              title: const Text('Phone Cases'),
-              onTap: () {
-                Navigator.pop(context);
-                _scrollToSection(0);
-              },
-            ),
-            ListTile(
-              title: const Text('Tablet Cases'),
-              onTap: () {
-                Navigator.pop(context);
-                _scrollToSection(1);
-              },
-            ),
-            ListTile(
-              title: const Text('Laptop Cases'),
-              onTap: () {
-                Navigator.pop(context);
-                _scrollToSection(2);
-              },
-            ),
-            ListTile(
-              title: const Text('AirPod Cases'),
-              onTap: () {
-                Navigator.pop(context);
-                _scrollToSection(3);
-              },
-            ),
-            ListTile(
-              title: const Text('Accessories'),
-              onTap: () {
-                Navigator.pop(context);
-                _scrollToSection(4);
-              },
-            ),
-            ListTile(
-              title: const Text('Home'),
-              onTap: () {
-                Navigator.pop(context); // Close the drawer
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const HomePage()), // Navigate to Home page
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('Profile'),
-              onTap: () {
-                Navigator.pop(context); // Close the drawer
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => ProfilePage()), // Navigate to Profile page
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('Logout'),
-              onTap: () {
-                Navigator.pop(context); // Close the drawer
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => const LoginScreen()),
-                );
-              },
-            ),
+            _drawerItem('Phone Cases', () => _scrollToSection(0), textColor),
+            _drawerItem('Tablet Cases', () => _scrollToSection(1), textColor),
+            _drawerItem('Laptop Cases', () => _scrollToSection(2), textColor),
+            _drawerItem('AirPod Cases', () => _scrollToSection(3), textColor),
+            _drawerItem('Accessories', () => _scrollToSection(4), textColor),
+            _drawerItem('Home', () => _navigateTo(context, const HomePage()), textColor),
+            _drawerItem('Profile', () => _navigateTo(context, ProfilePage()), textColor),
+            _drawerItem('Logout', () => _navigateTo(context, const LoginScreen()), textColor),
           ],
         ),
       ),
@@ -158,7 +84,6 @@ class _ProductPageState extends State<ProductPage> {
         controller: _scrollController,
         child: Column(
           children: [
-            // Display product sections based on orientation
             ProductSection(title: "Phone Cases", products: phoneCases, orientation: orientation),
             ProductSection(title: "Tablet Cases", products: tabletCases, orientation: orientation),
             ProductSection(title: "Laptop Cases", products: laptopCases, orientation: orientation),
@@ -168,6 +93,18 @@ class _ProductPageState extends State<ProductPage> {
         ),
       ),
     );
+  }
+
+  Widget _drawerItem(String title, VoidCallback onTap, Color textColor) {
+    return ListTile(
+      title: Text(title, style: TextStyle(fontWeight: FontWeight.w500, color: textColor)),
+      onTap: onTap,
+    );
+  }
+
+  void _navigateTo(BuildContext context, Widget page) {
+    Navigator.pop(context);
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => page));
   }
 }
 
@@ -180,6 +117,9 @@ class ProductSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textColor = colorScheme.onBackground;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -187,16 +127,11 @@ class ProductSection extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
           child: Text(
             title,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
           ),
         ),
-        // Adjust the height of the ListView based on orientation
         SizedBox(
-          height: orientation == Orientation.portrait ? 170 : 250, // Make it bigger in landscape mode
+          height: orientation == Orientation.portrait ? 170 : 250,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: products.length,
@@ -217,6 +152,9 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textColor = colorScheme.onBackground;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
@@ -227,10 +165,7 @@ class ProductCard extends StatelessWidget {
                 context,
                 PageRouteBuilder(
                   pageBuilder: (context, animation, secondaryAnimation) {
-                    return FadeTransition(
-                      opacity: animation,
-                      child: ProductDetailPage(product: product),
-                    );
+                    return FadeTransition(opacity: animation, child: ProductDetailPage(product: product));
                   },
                   transitionDuration: const Duration(milliseconds: 500),
                 ),
@@ -241,28 +176,15 @@ class ProductCard extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: AssetImage(product.image),
-                  fit: BoxFit.cover,
-                ),
+                image: DecorationImage(image: AssetImage(product.image), fit: BoxFit.cover),
               ),
             ),
           ),
           const SizedBox(height: 5),
-          Text(
-            product.name,
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.black,
-            ),
-          ),
+          Text(product.name, style: TextStyle(fontSize: 14, color: textColor)),
           Text(
             "LKR. ${product.price}",
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
+            style: TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.bold),
           ),
         ],
       ),
@@ -278,7 +200,7 @@ class Product {
   Product({required this.name, required this.image, required this.price});
 }
 
-// Sample product lists for each category
+// ✅ All Product Categories
 final List<Product> phoneCases = [
   Product(name: "Cottage", image: "assets/iphone1.jpg", price: 2000),
   Product(name: "Heat Overload", image: "assets/HeatOver.webp", price: 2000),
@@ -309,7 +231,7 @@ final List<Product> airpodCases = [
 
 final List<Product> accessories = [
   Product(name: "Cottage Ring Holder", image: "assets/pop.webp", price: 1750),
-  Product(name: "Camera Lens Protector", image: "assets/lens.jpg", price: 1150),
-  Product(name: "Pouch", image: "assets/pouch.webp", price: 950),
-  Product(name: "Grip", image: "assets/grip.webp", price: 1150),
+  Product(name: "Snowy Charm", image: "assets/snowy.webp", price: 1150),
+  Product(name: "Friends Watch Strap", image: "assets/friends.jpg", price: 950),
+  Product(name: "Sticky Grip", image: "assets/stickygrip.webp", price: 1150),
 ];

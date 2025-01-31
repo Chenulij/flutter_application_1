@@ -14,12 +14,16 @@ class SignUpScreen extends StatelessWidget {
   final String _hardcodedUsername = 'User';
   final String _hardcodedPassword = 'User123';
 
+  SignUpScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context); // Get the current theme
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: theme.colorScheme.background, // Use background color from the theme
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(238, 238, 238, 238),
+        backgroundColor: theme.appBarTheme.backgroundColor, // AppBar background color based on theme
         elevation: 0,
         centerTitle: true,
         title: Row(
@@ -47,12 +51,12 @@ class SignUpScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min, // Prevents unnecessary expansion
                           children: [
                             // WELCOME BACK message
-                            const Text(
+                            Text(
                               'CREATE ACCOUNT',
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black, // Make text black
+                                color: theme.textTheme.titleLarge?.color, // Title text color based on theme
                               ),
                             ),
                             const SizedBox(height: 20),
@@ -60,13 +64,13 @@ class SignUpScreen extends StatelessWidget {
                             // Email Field
                             TextFormField(
                               controller: _emailController,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 labelText: 'Email',
-                                labelStyle: TextStyle(color: Colors.black),
+                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), // Label text color based on theme
                                 border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.email, color: Colors.black),
+                                prefixIcon: Icon(Icons.email, color: theme.iconTheme.color), // Icon color based on theme
                               ),
-                              style: const TextStyle(color: Colors.black),
+                              style: TextStyle(color: theme.textTheme.bodyLarge?.color), // Text input color based on theme
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your email';
@@ -79,13 +83,13 @@ class SignUpScreen extends StatelessWidget {
                             // Username Field
                             TextFormField(
                               controller: _usernameController,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 labelText: 'Username',
-                                labelStyle: TextStyle(color: Colors.black),
+                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), // Label color based on theme
                                 border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.person, color: Colors.black),
+                                prefixIcon: Icon(Icons.person, color: theme.iconTheme.color), // Icon color based on theme
                               ),
-                              style: const TextStyle(color: Colors.black),
+                              style: TextStyle(color: theme.textTheme.bodyLarge?.color), // Input text color based on theme
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your username';
@@ -99,13 +103,13 @@ class SignUpScreen extends StatelessWidget {
                             TextFormField(
                               controller: _passwordController,
                               obscureText: true,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 labelText: 'Password',
-                                labelStyle: TextStyle(color: Colors.black),
+                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), // Label color based on theme
                                 border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.lock, color: Colors.black),
+                                prefixIcon: Icon(Icons.lock, color: theme.iconTheme.color), // Icon color based on theme
                               ),
-                              style: const TextStyle(color: Colors.black),
+                              style: TextStyle(color: theme.textTheme.bodyLarge?.color), // Input text color based on theme
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter your password';
@@ -119,13 +123,13 @@ class SignUpScreen extends StatelessWidget {
                             TextFormField(
                               controller: _confirmPasswordController,
                               obscureText: true,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 labelText: 'Confirm Password',
-                                labelStyle: TextStyle(color: Colors.black),
+                                labelStyle: TextStyle(color: theme.textTheme.bodyMedium?.color), // Label color based on theme
                                 border: OutlineInputBorder(),
-                                prefixIcon: Icon(Icons.lock, color: Colors.black),
+                                prefixIcon: Icon(Icons.lock, color: theme.iconTheme.color), // Icon color based on theme
                               ),
-                              style: const TextStyle(color: Colors.black),
+                              style: TextStyle(color: theme.textTheme.bodyLarge?.color), // Input text color based on theme
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please confirm your password';
@@ -165,8 +169,8 @@ class SignUpScreen extends StatelessWidget {
                               },
                               style: ElevatedButton.styleFrom(
                                 minimumSize: const Size(double.infinity, 50),
-                                backgroundColor: Colors.black,
-                                foregroundColor: Colors.white,
+                                backgroundColor: theme.primaryColor, // Button color based on theme
+                                foregroundColor: theme.colorScheme.onPrimary, // Text color on button
                               ),
                               child: const Text('Register'),
                             ),
@@ -176,7 +180,7 @@ class SignUpScreen extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text("Already have an account? ", style: TextStyle(color: Colors.black)),
+                                Text("Already have an account? ", style: TextStyle(color: theme.textTheme.bodyMedium?.color)),
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.pushReplacement(
@@ -184,10 +188,10 @@ class SignUpScreen extends StatelessWidget {
                                       MaterialPageRoute(builder: (context) => const LoginScreen()),
                                     );
                                   },
-                                  child: const Text(
+                                  child: Text(
                                     'Log in here',
                                     style: TextStyle(
-                                      color: Colors.black,
+                                      color: theme.primaryColor,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

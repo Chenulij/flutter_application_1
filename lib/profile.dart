@@ -3,15 +3,19 @@ import 'home.dart'; // Import HomePage
 import 'product.dart'; // Import ProductPage
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context); // Get the current theme
+
     return Scaffold(
-      backgroundColor: Colors.white, // Set background to white
+      backgroundColor: theme.colorScheme.background, // Set background color based on the theme
       appBar: AppBar(
-        backgroundColor: Colors.white, // White background for AppBar
+        backgroundColor: theme.colorScheme.surface, // AppBar background color
         title: const Text(
           'Profile',
-          style: TextStyle(color: Colors.black), // Black text color
+          style: TextStyle(color: Colors.black), // Title text color
         ),
         centerTitle: true,
         elevation: 0,
@@ -30,7 +34,7 @@ class ProfilePage extends StatelessWidget {
                     backgroundImage: NetworkImage(
                         'https://via.placeholder.com/150'), // Dummy image
                   ),
-                  const SizedBox(width: 16),
+                  SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -53,10 +57,10 @@ class ProfilePage extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: Colors.white,
+                  color: theme.cardColor, // Set card background color based on theme
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.grey.withOpacity(0.2),
+                      color: theme.shadowColor.withOpacity(0.2), // Adjust shadow color based on theme
                       spreadRadius: 2,
                       blurRadius: 8,
                     ),
@@ -81,8 +85,8 @@ class ProfilePage extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black, // Button background color
-                  foregroundColor: Colors.white, // Button text color
+                  backgroundColor: theme.primaryColor, // Set button color based on theme
+                  foregroundColor: theme.colorScheme.onPrimary, // Button text color based on theme
                 ),
                 child: const Text('Browse Categories'),
               ),
@@ -99,13 +103,15 @@ class ProfileRowItem extends StatelessWidget {
   final String value;
 
   const ProfileRowItem({
-    Key? key,
+    super.key,
     required this.label,
     required this.value,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context); // Get current theme
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       child: Row(
@@ -113,12 +119,12 @@ class ProfileRowItem extends StatelessWidget {
         children: [
           Text(
             label,
-            style: const TextStyle(color: Colors.black54), // Lighter black color
+            style: TextStyle(color: theme.textTheme.bodyLarge?.color), // Adjust color based on theme
           ),
           Text(
             value,
-            style: const TextStyle(
-                fontWeight: FontWeight.w600, fontSize: 16, color: Colors.black), // Black font color
+            style: TextStyle(
+                fontWeight: FontWeight.w600, fontSize: 16, color: theme.textTheme.bodyMedium?.color), // Adjust color based on theme
           ),
         ],
       ),

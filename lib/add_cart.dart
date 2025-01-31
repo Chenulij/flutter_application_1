@@ -23,8 +23,8 @@ class _AddCartPageState extends State<AddCartPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text("Order Confirmed", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w700)), // Use SemiBold font
-        content: Text("Your order has been placed successfully.", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w400)), // Use Regular font
+        title: const Text("Order Confirmed", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w700)), // Use SemiBold font
+        content: const Text("Your order has been placed successfully.", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w400)), // Use Regular font
         actions: [
           TextButton(
             onPressed: () {
@@ -33,7 +33,7 @@ class _AddCartPageState extends State<AddCartPage> {
                 widget.cartItems.clear(); // ✅ Clear the cart
               });
             },
-            child: Text("OK", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w500)), // Medium weight font
+            child: const Text("OK", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w500)), // Medium weight font
           ),
         ],
       ),
@@ -42,17 +42,26 @@ class _AddCartPageState extends State<AddCartPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context); // Get current theme
+
     return Scaffold(
-      backgroundColor: Colors.white, // Set background to white
+      backgroundColor: theme.colorScheme.background, // Dynamic background color
       appBar: AppBar(
-        title: Text("Your Cart", style: TextStyle(fontFamily: 'Roboto', color: Colors.black, fontWeight: FontWeight.w500)), // Use Medium weight for the title
-        backgroundColor: Colors.white, // Set AppBar background to white
+        title: const Text("Your Cart", style: TextStyle(fontFamily: 'Roboto', color: Colors.black, fontWeight: FontWeight.w500)), // Use Medium weight for the title
+        backgroundColor: theme.appBarTheme.backgroundColor, // AppBar background color
         elevation: 0, // Remove the AppBar shadow
-        iconTheme: const IconThemeData(color: Colors.black), // Set AppBar icons to black
+        iconTheme: IconThemeData(color: theme.iconTheme.color), // Set AppBar icons color dynamically
       ),
       body: widget.cartItems.isEmpty
-          ? const Center(
-              child: Text("Cart is empty!", style: TextStyle(fontSize: 18, color: Colors.black, fontFamily: 'Roboto')),
+          ? Center(
+              child: Text(
+                "Cart is empty!",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: theme.colorScheme.onBackground, // Dynamic text color
+                  fontFamily: 'Roboto',
+                ),
+              ),
             )
           : ListView.builder(
               itemCount: widget.cartItems.length,
@@ -60,10 +69,24 @@ class _AddCartPageState extends State<AddCartPage> {
                 final product = widget.cartItems[index];
                 return ListTile(
                   leading: Image.asset(product.image, width: 50, height: 50),
-                  title: Text(product.name, style: TextStyle(fontFamily: 'Roboto', color: Colors.black, fontWeight: FontWeight.w400)), // Regular font
-                  subtitle: Text("LKR. ${product.price}", style: TextStyle(fontFamily: 'Roboto', color: Colors.black, fontWeight: FontWeight.w400)), // Regular font
+                  title: Text(
+                    product.name,
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      color: theme.colorScheme.onBackground, // Dynamic text color
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  subtitle: Text(
+                    "LKR. ${product.price}",
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      color: theme.colorScheme.onBackground, // Dynamic text color
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                   trailing: IconButton(
-                    icon: const Icon(Icons.delete, color: Colors.red),
+                    icon: Icon(Icons.delete, color: theme.colorScheme.error), // Use error color for delete button
                     onPressed: () {
                       setState(() {
                         widget.cartItems.removeAt(index); // Remove item from cart
@@ -77,8 +100,18 @@ class _AddCartPageState extends State<AddCartPage> {
         padding: const EdgeInsets.all(10.0),
         child: ElevatedButton(
           onPressed: proceedToCheckout, // ✅ Calls the function to show message
-          style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
-          child: Text("Proceed to Checkout", style: TextStyle(fontFamily: 'Roboto', color: Colors.black, fontWeight: FontWeight.w700)), // SemiBold font for button text
+          style: ElevatedButton.styleFrom(
+            backgroundColor: theme.colorScheme.primary, // Dynamic button background color
+            foregroundColor: theme.colorScheme.onPrimary, // Dynamic button text color
+          ),
+          child: Text(
+            "Proceed to Checkout",
+            style: TextStyle(
+              fontFamily: 'Roboto',
+              color: theme.colorScheme.onPrimary, // Dynamic button text color
+              fontWeight: FontWeight.w700, // SemiBold font for button text
+            ),
+          ),
         ),
       ),
     );

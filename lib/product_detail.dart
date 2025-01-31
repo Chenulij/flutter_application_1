@@ -14,7 +14,7 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   List<Product> cartItems = [];
 
-  // List of all available products for the "Products You May Like" section
+  // List of all available products for "Products You May Like" section
   List<Product> allProducts = [
     Product(name: "Cottage", image: "assets/cot.webp", price: 2450),
     Product(name: "Heat Overload", image: "assets/HeatOver.webp", price: 3000),
@@ -22,7 +22,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     Product(name: "Heart Breaker", image: "assets/breaker.jpg", price: 3000),
     Product(name: "Checkered", image: "assets/checkered.webp", price: 3000),
     Product(name: "Teddy", image: "assets/teddy.webp", price: 3000),
-    // Add more products as needed
   ];
 
   void addToCart(Product product) {
@@ -44,7 +43,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       "Heart Breaker": "A trendy heart-patterned case for a stylish touch.",
       "Checkered": "A classic checkered design for a retro look.",
       "Teddy": "A soft teddy bear-themed case for ultimate cuteness.",
-      // Add descriptions for other products here
     };
 
     return descriptions[productName] ?? "A stylish and high-quality case designed for durability and aesthetics.";
@@ -52,30 +50,30 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    // Filter out the current product from the list of products to avoid showing it in the "Products You May Like" section
+    // Dark mode compatibility
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final textColor = colorScheme.onBackground;
+
+    // Remove current product from "You May Like" section
     List<Product> suggestedProducts = allProducts.where((p) => p.name != widget.product.name).toList();
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: colorScheme.background,
       appBar: AppBar(
-        backgroundColor: const Color.fromARGB(238, 238, 238, 238),
+        backgroundColor: colorScheme.surface,
         elevation: 0,
         centerTitle: true,
-        title: Image.asset(
-          'assets/logo2.png',
-          height: 40,
-        ),
+        title: Image.asset('assets/logo2.png', height: 40),
         actions: [
           Stack(
             children: [
               IconButton(
-                icon: const Icon(Icons.shopping_bag, color: Colors.black),
+                icon: Icon(Icons.shopping_bag, color: textColor),
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => AddCartPage(cartItems: cartItems),
-                    ),
+                    MaterialPageRoute(builder: (context) => AddCartPage(cartItems: cartItems)),
                   );
                 },
               ),
@@ -86,136 +84,84 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   child: CircleAvatar(
                     radius: 10,
                     backgroundColor: Colors.red,
-                    child: Text(
-                      cartItems.length.toString(),
-                      style: const TextStyle(color: Colors.white, fontSize: 12),
-                    ),
+                    child: Text(cartItems.length.toString(), style: const TextStyle(color: Colors.white, fontSize: 12)),
                   ),
                 ),
             ],
           ),
         ],
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
+        iconTheme: IconThemeData(color: textColor),
       ),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      widget.product.image,
-                      width: 250,
-                      height: 250,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    widget.product.name,
-                    style: const TextStyle(
-                      fontSize: 22, 
-                      fontWeight: FontWeight.bold, 
-                      color: Colors.black,
-                      fontFamily: 'Roboto',  // Apply custom font
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "LKR. ${widget.product.price}",
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Roboto',  // Apply custom font
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Description",
-                    style: TextStyle(
-                      fontSize: 18, 
-                      fontWeight: FontWeight.bold, 
-                      color: Colors.black,
-                      fontFamily: 'Roboto',  // Apply custom font
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    getDescription(widget.product.name),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 16, 
-                      color: Colors.black, 
-                      fontFamily: 'Roboto',  // Apply custom font
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          addToCart(widget.product);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                          backgroundColor: Colors.black,
-                        ),
-                        child: const Text(
-                          "Add To Cart", 
-                          style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),  // Apply custom font
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+        child: Padding(
+          padding: const EdgeInsets.all(16.0), // Fix overflow issue
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image.asset(
+                  widget.product.image,
+                  width: 250,
+                  height: 250,
+                  fit: BoxFit.cover,
+                ),
               ),
-            ),
+              const SizedBox(height: 20),
+              Text(
+                widget.product.name,
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: textColor),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "LKR. ${widget.product.price}",
+                style: TextStyle(fontSize: 18, color: Colors.green, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+              const Text(
+                "Description",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                getDescription(widget.product.name),
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, color: textColor),
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  addToCart(widget.product);
+                },
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  backgroundColor: Colors.black,
+                ),
+                child: const Text("Add To Cart", style: TextStyle(color: Colors.white)),
+              ),
 
-            // ✅ "Products You May Like" Section
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Text(
-                      "Products You May Like",
-                      style: TextStyle(
-                        fontSize: 20, 
-                        fontWeight: FontWeight.bold, 
-                        color: Colors.black,
-                        fontFamily: 'Roboto',  // Apply custom font
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 170,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: suggestedProducts.length, // Display suggested products
-                      itemBuilder: (context, index) {
-                        return ProductCard(
-                          product: suggestedProducts[index], // Show other products
-                        );
-                      },
-                    ),
-                  ),
-                ],
+              // "Products You May Like" Section
+              const SizedBox(height: 30),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Products You May Like",
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 170,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: suggestedProducts.length,
+                  itemBuilder: (context, index) {
+                    return ProductCard(product: suggestedProducts[index]);
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -229,18 +175,18 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final textColor = colorScheme.onBackground;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Column(
         children: [
           GestureDetector(
             onTap: () {
-              // Navigate to product detail page when a product is tapped
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => ProductDetailPage(product: product),
-                ),
+                MaterialPageRoute(builder: (context) => ProductDetailPage(product: product)),
               );
             },
             child: Container(
@@ -248,30 +194,18 @@ class ProductCard extends StatelessWidget {
               height: 140,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                  image: AssetImage(product.image),
-                  fit: BoxFit.cover,
-                ),
+                image: DecorationImage(image: AssetImage(product.image), fit: BoxFit.cover),
               ),
             ),
           ),
           const SizedBox(height: 5),
           Text(
             product.name,
-            style: const TextStyle(
-              fontSize: 14, 
-              color: Colors.black,
-              fontFamily: 'Roboto',  // Apply custom font
-            ),
+            style: TextStyle(fontSize: 14, color: textColor),
           ),
           Text(
             "LKR. ${product.price}",
-            style: const TextStyle(
-              fontSize: 12, 
-              color: Colors.black, 
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Roboto',  // Apply custom font
-            ),
+            style: TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.bold),
           ),
         ],
       ),
