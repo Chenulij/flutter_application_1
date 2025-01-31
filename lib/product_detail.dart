@@ -152,7 +152,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ),
                 const SizedBox(height: 10),
                 SizedBox(
-                  height: 170,
+                  height: 170, // Keep a fixed height for the product carousel
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: suggestedProducts.length,

@@ -8,6 +8,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context); // Get the current theme
+    final isDarkMode = theme.brightness == Brightness.dark; // Check if it's dark mode
+    final textColor = isDarkMode ? Colors.white : Colors.black; // Use white in dark mode
 
     return Scaffold(
       backgroundColor: theme.colorScheme.background, // Set background color based on the theme
@@ -26,30 +28,30 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             children: [
               // Profile Picture and Info
-              const Row(
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 40,
                     backgroundImage: NetworkImage(
                         'https://via.placeholder.com/150'), // Dummy image
                   ),
-                  SizedBox(width: 16),
+                  const SizedBox(width: 16),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'Chenuli Jayasekara',
                         style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black), // Black font color
+                            fontSize: 18, fontWeight: FontWeight.bold, color: textColor), // Set text color
                       ),
-                      SizedBox(height: 4),
+                      const SizedBox(height: 4),
                       Text(
                         'Wattala',
-                        style: TextStyle(color: Colors.black54), // Lighter black color for secondary text
+                        style: TextStyle(color: textColor), // Set text color
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
               const SizedBox(height: 32),
@@ -88,7 +90,10 @@ class ProfilePage extends StatelessWidget {
                   backgroundColor: theme.primaryColor, // Set button color based on theme
                   foregroundColor: theme.colorScheme.onPrimary, // Button text color based on theme
                 ),
-                child: const Text('Browse Categories'),
+                child: Text(
+                  'Browse Categories',
+                  style: TextStyle(color: isDarkMode ? Colors.white : Colors.black), // Button text color
+                ),
               ),
             ],
           ),
@@ -111,6 +116,8 @@ class ProfileRowItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context); // Get current theme
+    final isDarkMode = theme.brightness == Brightness.dark; // Check if it's dark mode
+    final textColor = isDarkMode ? Colors.white : Colors.black; // Use white in dark mode
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
@@ -119,12 +126,12 @@ class ProfileRowItem extends StatelessWidget {
         children: [
           Text(
             label,
-            style: TextStyle(color: theme.textTheme.bodyLarge?.color), // Adjust color based on theme
+            style: TextStyle(color: textColor), // Set text color
           ),
           Text(
             value,
             style: TextStyle(
-                fontWeight: FontWeight.w600, fontSize: 16, color: theme.textTheme.bodyMedium?.color), // Adjust color based on theme
+                fontWeight: FontWeight.w600, fontSize: 16, color: textColor), // Set text color
           ),
         ],
       ),
