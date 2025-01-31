@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'login_screen.dart'; // Import LoginScreen
 import 'product.dart'; // Importing the ProductPage
 import 'profile.dart'; // Import ProfilePage (ensure the file exists)
 
@@ -86,7 +87,10 @@ class _HomePageState extends State<HomePage> {
             _drawerItem('Profile', () => _navigateTo(context, ProfilePage()), textColor),
             _drawerItem('Logout', () {
               Navigator.pop(context); // Close the drawer
-              print("Logged out");
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginScreen()), // Navigate to LoginScreen
+              );
             }, textColor),
           ],
         ),

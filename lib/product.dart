@@ -206,6 +206,7 @@ final List<Product> phoneCases = [
   Product(name: "Heat Overload", image: "assets/HeatOver.webp", price: 2000),
   Product(name: "Blue Waves", image: "assets/BlueWaves.png", price: 2500),
   Product(name: "Heart Breaker", image: "assets/Red.jpg", price: 2000),
+  
 ];
 
 final List<Product> tabletCases = [
