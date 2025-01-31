@@ -54,10 +54,6 @@ class _HomePageState extends State<HomePage> {
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.account_circle, color: textColor),
-            onPressed: () {},
-          ),
-          IconButton(
             icon: Icon(Icons.shopping_bag, color: textColor),
             onPressed: () {},
           ),

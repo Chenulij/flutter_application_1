@@ -39,13 +39,13 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Jane Doe',
+                        'Chenuli Jayasekara',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black), // Black font color
                       ),
                       SizedBox(height: 4),
                       Text(
-                        'San Francisco, CA',
+                        'Wattala',
                         style: TextStyle(color: Colors.black54), // Lighter black color for secondary text
                       ),
                     ],
@@ -68,9 +68,9 @@ class ProfilePage extends StatelessWidget {
                 ),
                 child: const Column(
                   children: [
-                    ProfileRowItem(label: 'Email', value: 'janedoe@email.com'),
+                    ProfileRowItem(label: 'Email', value: 'chenulij@gmail.com'),
                     ProfileRowItem(label: 'Phone', value: '+123456789'),
-                    ProfileRowItem(label: 'Member Since', value: 'March 2022'),
+                    ProfileRowItem(label: 'Member Since', value: 'June 2024'),
                   ],
                 ),
               ),

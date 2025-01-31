@@ -92,75 +92,77 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
         ],
         iconTheme: IconThemeData(color: textColor),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0), // Fix overflow issue
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  widget.product.image,
-                  width: 250,
-                  height: 250,
-                  fit: BoxFit.cover,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    widget.product.image,
+                    width: 250,
+                    height: 250,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20),
-              Text(
-                widget.product.name,
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: textColor),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                "LKR. ${widget.product.price}",
-                style: TextStyle(fontSize: 18, color: Colors.green, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                "Description",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                getDescription(widget.product.name),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16, color: textColor),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  addToCart(widget.product);
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  backgroundColor: Colors.black,
+                const SizedBox(height: 20),
+                Text(
+                  widget.product.name,
+                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: textColor),
                 ),
-                child: const Text("Add To Cart", style: TextStyle(color: Colors.white)),
-              ),
-
-              // "Products You May Like" Section
-              const SizedBox(height: 30),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Products You May Like",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
+                const SizedBox(height: 10),
+                Text(
+                  "LKR. ${widget.product.price}",
+                  style: TextStyle(fontSize: 18, color: Colors.green, fontWeight: FontWeight.bold),
                 ),
-              ),
-              const SizedBox(height: 10),
-              SizedBox(
-                height: 170,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: suggestedProducts.length,
-                  itemBuilder: (context, index) {
-                    return ProductCard(product: suggestedProducts[index]);
+                const SizedBox(height: 20),
+                const Text(
+                  "Description",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  getDescription(widget.product.name),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: textColor),
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    addToCart(widget.product);
                   },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    backgroundColor: Colors.black,
+                  ),
+                  child: const Text("Add To Cart", style: TextStyle(color: Colors.white)),
                 ),
-              ),
-            ],
+
+                // "Products You May Like" Section
+                const SizedBox(height: 30),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Products You May Like",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                SizedBox(
+                  height: 170,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: suggestedProducts.length,
+                    itemBuilder: (context, index) {
+                      return ProductCard(product: suggestedProducts[index]);
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
