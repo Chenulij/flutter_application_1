@@ -1,39 +1,80 @@
 import 'package:flutter/material.dart';
-import 'product.dart';
+import 'models/product.dart';
+import 'services/CartService.dart';
+import 'models/cart_item.dart';
+import 'models/cart_response.dart';
+import 'checkout_page.dart';
 
 class AddCartPage extends StatefulWidget {
-  final List<Product> cartItems;
+  final List<Product>? cartItems; // in-memory cartItems (optional)
 
-  const AddCartPage({super.key, required this.cartItems});
+  const AddCartPage({super.key, this.cartItems});
 
   @override
   State<AddCartPage> createState() => _AddCartPageState();
 }
 
 class _AddCartPageState extends State<AddCartPage> {
+  CartResponse? _cartResponse;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.cartItems == null) {
+      _loadCart();
+    } else {
+      _isLoading = false;
+    }
+  }
+
+  Future<void> _loadCart() async {
+    try {
+      final response = await CartService().fetchCartResponse();
+      setState(() {
+        _cartResponse = response;
+        _isLoading = false;
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error fetching cart: $e')),
+      );
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
   void proceedToCheckout() {
-    if (widget.cartItems.isEmpty) {
+    final isEmpty = widget.cartItems != null
+        ? widget.cartItems!.isEmpty
+        : (_cartResponse == null || _cartResponse!.items.isEmpty);
+
+    if (isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Your cart is empty! Add items first.")),
       );
       return;
     }
 
-    // Show Order Confirmation Message
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Order Confirmed", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w700)), 
-        content: const Text("Your order has been placed successfully.", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w400)), 
+        title: const Text("Order Confirmed"),
+        content: const Text("Your order has been placed successfully."),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(); 
+              Navigator.of(context).pop();
               setState(() {
-                widget.cartItems.clear(); 
+                if (widget.cartItems != null) {
+                  widget.cartItems!.clear();
+                } else {
+                  _cartResponse = CartResponse(items: [], total: 0.0);
+                }
               });
             },
-            child: const Text("OK", style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w500)),
+            child: const Text("OK"),
           ),
         ],
       ),
@@ -42,78 +83,122 @@ class _AddCartPageState extends State<AddCartPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context); 
+    final theme = Theme.of(context);
 
     return Scaffold(
-      backgroundColor: theme.colorScheme.background, 
+      backgroundColor: theme.colorScheme.surface,
       appBar: AppBar(
-        title: const Text("Your Cart", style: TextStyle(fontFamily: 'Roboto', color: Colors.black, fontWeight: FontWeight.w500)), 
-        backgroundColor: theme.appBarTheme.backgroundColor, 
-        elevation: 0, 
-        iconTheme: IconThemeData(color: theme.iconTheme.color), 
+        title: const Text("Your Cart"),
       ),
-      body: widget.cartItems.isEmpty
-          ? Center(
-              child: Text(
-                "Cart is empty!",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: theme.colorScheme.onBackground, 
-                  fontFamily: 'Roboto',
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _buildCartList(),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: ElevatedButton(
+          onPressed: () {
+            // Prepare cart items for checkout
+            final cartItems = _cartResponse!.items.map((item) => {
+              "product_id": item.productId,
+              "quantity": item.quantity,
+            }).toList();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CheckoutPage(
+                  cartItems: cartItems,
+                  total: _cartResponse!.total,
                 ),
               ),
-            )
-          : ListView.builder(
-              itemCount: widget.cartItems.length,
+            );
+          },
+          child: const Text("Proceed to Checkout"),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCartList() {
+    if (widget.cartItems != null) {
+      // In-memory Product list
+      if (widget.cartItems!.isEmpty) {
+        return const Center(child: Text("Cart is empty!", style: TextStyle(fontSize: 18)));
+      }
+
+      return ListView.builder(
+        itemCount: widget.cartItems!.length,
+        itemBuilder: (context, index) {
+          final product = widget.cartItems![index];
+          return ListTile(
+            leading: Image.network(
+              product.image,
+              width: 50,
+              height: 50,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => const Icon(Icons.broken_image, size: 40),
+            ),
+            title: Text(product.name),
+            subtitle: Text("LKR. ${product.price}"),
+            trailing: IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () {
+                setState(() {
+                  widget.cartItems!.removeAt(index);
+                });
+              },
+            ),
+          );
+        },
+      );
+    } else {
+      // CartService-based cart
+      if (_cartResponse == null || _cartResponse!.items.isEmpty) {
+        return const Center(child: Text("Cart is empty!", style: TextStyle(fontSize: 18)));
+      }
+
+      return Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              itemCount: _cartResponse!.items.length,
               itemBuilder: (context, index) {
-                final product = widget.cartItems[index];
+                final item = _cartResponse!.items[index];
                 return ListTile(
-                  leading: Image.asset(product.image, width: 50, height: 50),
-                  title: Text(
-                    product.name,
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      color: theme.colorScheme.onBackground, 
-                      fontWeight: FontWeight.w400,
-                    ),
+                  leading: Image.network(
+                    item.image,
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
                   ),
-                  subtitle: Text(
-                    "LKR. ${product.price}",
-                    style: TextStyle(
-                      fontFamily: 'Roboto',
-                      color: theme.colorScheme.onBackground, 
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
+                  title: Text(item.productName),
+                  subtitle: Text("LKR. ${item.price} x ${item.quantity}"),
                   trailing: IconButton(
-                    icon: Icon(Icons.delete, color: theme.colorScheme.error), 
-                    onPressed: () {
-                      setState(() {
-                        widget.cartItems.removeAt(index); // Remove Product from cart
-                      });
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () async {
+                      try {
+                        await CartService().removeFromCart(item.id);
+                        await _loadCart(); // Reload after delete
+                      } catch (e) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Error removing item: $e')),
+                        );
+                      }
                     },
                   ),
                 );
               },
             ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: ElevatedButton(
-          onPressed: proceedToCheckout, 
-          style: ElevatedButton.styleFrom(
-            backgroundColor: theme.colorScheme.primary, 
-            foregroundColor: theme.colorScheme.onPrimary, 
           ),
-          child: Text(
-            "Proceed to Checkout",
-            style: TextStyle(
-              fontFamily: 'Roboto',
-              color: theme.colorScheme.onPrimary, 
-              fontWeight: FontWeight.w700, 
+          // Show total price
+          Container(
+            padding: const EdgeInsets.all(16),
+            child: Text(
+              "Total: LKR. ${_cartResponse!.total.toStringAsFixed(2)}",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-        ),
-      ),
-    );
+        ],
+      );
+    }
   }
 }

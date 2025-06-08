@@ -1,216 +1,159 @@
-import 'package:flutter/material.dart';
-import 'product.dart';
-import 'add_cart.dart';
+  import 'package:flutter/material.dart';
+  import 'models/product.dart';
+  import 'wishlist.dart';
+  import 'add_cart.dart';
+  import 'services/CartService.dart'; // <-- Make sure this file exists
 
-class ProductDetailPage extends StatefulWidget {
-  final Product product;
+  class ProductDetail extends StatelessWidget {
+    final Product product;
 
-  const ProductDetailPage({super.key, required this.product});
+    const ProductDetail({Key? key, required this.product}) : super(key: key);
 
-  @override
-  State<ProductDetailPage> createState() => _ProductDetailPageState();
-}
+    @override
+    Widget build(BuildContext context) {
+      final colorScheme = Theme.of(context).colorScheme;
 
-class _ProductDetailPageState extends State<ProductDetailPage> {
-  List<Product> cartItems = [];
-
- 
-  List<Product> allProducts = [
-    Product(name: "Cottage", image: "assets/cot.webp", price: 2450),
-    Product(name: "Heat Overload", image: "assets/HeatOver.webp", price: 3000),
-    Product(name: "Blue Waves", image: "assets/BlueWaves.png", price: 2500),
-    Product(name: "Heart Breaker", image: "assets/breaker.jpg", price: 3000),
-    Product(name: "Checkered", image: "assets/checkered.webp", price: 3000),
-    Product(name: "Teddy", image: "assets/teddy.webp", price: 3000),
-  ];
-
-  void addToCart(Product product) {
-    setState(() {
-      cartItems.add(product);
-    });
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Item added to cart!")),
-    );
-  }
-
-  
-  String getDescription(String productName) {
-    Map<String, String> descriptions = {
-      "Cottage": "A cozy aesthetic case with soft pastel tones.",
-      "Heat Overload": "A fiery and bold case for those who love a statement piece.",
-      "Blue Waves": "An ocean-inspired case with a soothing wave pattern.",
-      "Heart Breaker": "A trendy heart-patterned case for a stylish touch.",
-      "Checkered": "A classic checkered design for a retro look.",
-      "Teddy": "A soft teddy bear-themed case for ultimate cuteness.",
-    };
-
-    return descriptions[productName] ?? "A stylish and high-quality case designed for durability and aesthetics.";
-  }
-
-  @override
-  Widget build(BuildContext context) {
-  
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final textColor = colorScheme.onBackground;
-
-   
-    List<Product> suggestedProducts = allProducts.where((p) => p.name != widget.product.name).toList();
-
-    return Scaffold(
-      backgroundColor: colorScheme.background,
-      appBar: AppBar(
-        backgroundColor: colorScheme.surface,
-        elevation: 0,
-        centerTitle: true,
-        title: Image.asset('assets/logo2.png', height: 40),
-        actions: [
-          Stack(
-            children: [
-              IconButton(
-                icon: Icon(Icons.shopping_bag, color: textColor),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddCartPage(cartItems: cartItems)),
-                  );
-                },
-              ),
-              if (cartItems.isNotEmpty)
-                Positioned(
-                  right: 8,
-                  top: 8,
-                  child: CircleAvatar(
-                    radius: 10,
-                    backgroundColor: Colors.red,
-                    child: Text(cartItems.length.toString(), style: const TextStyle(color: Colors.white, fontSize: 12)),
-                  ),
-                ),
-            ],
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: colorScheme.surface,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            color: colorScheme.onBackground,
+            onPressed: () => Navigator.pop(context),
           ),
-        ],
-        iconTheme: IconThemeData(color: textColor),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.asset(
-                    widget.product.image,
-                    width: 250,
-                    height: 250,
-                    fit: BoxFit.cover,
+          title: Image.asset(
+            'assets/logo2.png',
+            height: 40,
+          ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.shopping_bag_outlined),
+              color: colorScheme.onBackground,
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AddCartPage()),
+                );
+              },
+            ),
+          ],
+        ),
+        body: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 400),
+                child: Card(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(24.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Center(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Image.network(
+                              product.image,
+                              height: 220,
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(Icons.broken_image, size: 120),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          product.name,
+                          style: const TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'LKR. ${product.price.toStringAsFixed(2)}',
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          product.description,
+                          style: const TextStyle(fontSize: 16),
+                        ),
+                        const SizedBox(height: 24),
+                        const Text(
+                          'Phone Model:',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                        const SizedBox(height: 8),
+                        DropdownButtonFormField<String>(
+                          value: 'iPhone 14 Max',
+                          items: const [
+                            DropdownMenuItem(value: 'iPhone 14 Max', child: Text('iPhone 14 Max')),
+                            DropdownMenuItem(value: 'iPhone 13', child: Text('iPhone 13')),
+                            DropdownMenuItem(value: 'iPhone 12', child: Text('iPhone 12')),
+                          ],
+                          onChanged: (value) {},
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        const Text(
+                          'Quantity:',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                        ),
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: 100,
+                          child: TextFormField(
+                            initialValue: '1',
+                            keyboardType: TextInputType.number,
+                            decoration: const InputDecoration(
+                              border: OutlineInputBorder(),
+                              contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () async {
+                              final success = await CartService().addToCart(productId: product.id);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(success
+                                      ? 'Added to cart!'
+                                      : 'Failed to add to cart.'),
+                                ),
+                              );
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 18),
+                              textStyle: const TextStyle(fontSize: 18),
+                            ),
+                            child: const Text('Add to Cart'),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  widget.product.name,
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: textColor),
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "LKR. ${widget.product.price}",
-                  style: TextStyle(fontSize: 18, color: Colors.green, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "Description",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  getDescription(widget.product.name),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: textColor),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    addToCart(widget.product);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                    backgroundColor: Colors.black,
-                  ),
-                  child: const Text("Add To Cart", style: TextStyle(color: Colors.white)),
-                ),
-
-                // "Products You May Like" Section
-                const SizedBox(height: 30),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Products You May Like",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: textColor),
-                  ),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 170, 
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: suggestedProducts.length,
-                    itemBuilder: (context, index) {
-                      return ProductCard(product: suggestedProducts[index]);
-                    },
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    }
   }
-}
-
-class ProductCard extends StatelessWidget {
-  final Product product;
-
-  const ProductCard({super.key, required this.product});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textColor = colorScheme.onBackground;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProductDetailPage(product: product)),
-              );
-            },
-            child: Container(
-              width: 110,
-              height: 140,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(image: AssetImage(product.image), fit: BoxFit.cover),
-              ),
-            ),
-          ),
-          const SizedBox(height: 5),
-          Text(
-            product.name,
-            style: TextStyle(fontSize: 14, color: textColor),
-          ),
-          Text(
-            "LKR. ${product.price}",
-            style: TextStyle(fontSize: 12, color: textColor, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-}

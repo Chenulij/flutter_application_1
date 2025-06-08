@@ -30,6 +30,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  sensors_plus: ^3.0.0
+  http: ^0.13.5
+  flutter_secure_storage: ^8.0.0
+  provider: ^6.0.0
+  image_picker: ^1.0.4
+  shared_preferences: ^2.2.2
+
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -63,25 +71,17 @@ flutter:
     - assets/logo2.png
     - assets/BlueWaves.png 
     - assets/Breaker.jpg
-    - assets/burndey.webp
-    - assets/Red.jpg
     - assets/iphone1.jpg
     - assets/HeatOver.webp
     - assets/cottab.jpg
     - assets/Checkered.webp
     - assets/teddy.webp
-    - assets/breaker.jpg    
-    - assets/cottlap.webp
+    - assets/breaker.jpg
     - assets/cherryBlast.webp
-    - assets/siren.jpg
-    - assets/candy.webp
     - assets/cot.webp
-    - assets/Starblue.jpg
     - assets/sea.webp
     - assets/pop.webp
-    - assets/snowy.webp
     - assets/friends.jpg
-    - assets/stickygrip.webp
     - assets/Cherry.webp
     - assets/random.png
     - assets/iphone16.jpg
@@ -90,7 +90,18 @@ flutter:
     - assets/Blue.jpg
     - assets/Reddy.jpg
     - assets/ClearCases.jpg
-   
+    - assets/La_Playa.jpg
+    - assets/earbuds.jpg
+    - assets/Air_max.jpg
+    - assets/Apple_Watch.jpg
+    - assets/Cougar_iPhone.jpg
+    - assets/Favorite_Bikini_AirPods_Max.jpg
+    - assets/Gustas_Macbook.jpg
+    - assets/iphone.jpg
+    - assets/Old_Money_iphone.jpg
+    - assets/Watch.jpg
+    - assets/Sweetheart_iphone.jpg
+    - assets/default_avatar.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

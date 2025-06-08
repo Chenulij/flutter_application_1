@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart'; 
-import 'product.dart'; 
-import 'profile.dart'; 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'product_screen.dart';
+import 'profile_screen.dart';
+import 'add_cart.dart';
+import 'login_screen.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
-  // Carousel Image List
+class _HomeScreenState extends State<HomeScreen> {
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  String? token;
+
   final List<String> images = [
     'assets/Brown.jpg',
     'assets/Reddy.jpg',
@@ -19,7 +23,19 @@ class _HomePageState extends State<HomePage> {
   ];
   int currentIndex = 0;
 
-  // Carousel Navigation
+  @override
+  void initState() {
+    super.initState();
+    _loadToken();
+  }
+
+  Future<void> _loadToken() async {
+    String? savedToken = await _storage.read(key: 'auth_token');
+    setState(() {
+      token = savedToken;
+    });
+  }
+
   void nextImage() {
     setState(() {
       currentIndex = (currentIndex + 1) % images.length;
@@ -36,11 +52,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-    final textColor = colorScheme.onBackground; 
+    final textColor = colorScheme.onBackground;
 
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
-    double carouselHeight = screenHeight * 0.35; 
+    double carouselHeight = screenHeight * 0.35;
 
     return Scaffold(
       backgroundColor: colorScheme.background,
@@ -52,49 +68,12 @@ class _HomePageState extends State<HomePage> {
           'assets/logo2.png',
           height: 40,
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_bag, color: textColor),
-            onPressed: () {},
-          ),
-        ],
         iconTheme: IconThemeData(color: textColor),
-      ),
-      drawer: Drawer(
-        backgroundColor: colorScheme.surface, 
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: colorScheme.surface),
-              child: Center(
-                child: Text(
-                  'Categories',
-                  style: TextStyle(
-                    color: textColor,
-                    fontSize: 20,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-            _drawerItem('Product', () => _navigateTo(context, const ProductPage()), textColor),
-            _drawerItem('Profile', () => _navigateTo(context, ProfilePage()), textColor),
-            _drawerItem('Logout', () {
-              Navigator.pop(context); // Close the drawer
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (context) => const LoginScreen()), 
-              );
-            }, textColor),
-          ],
-        ),
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Carousel
             Padding(
               padding: const EdgeInsets.only(top: 20.0),
               child: Stack(
@@ -114,8 +93,6 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-
-            // Product Section
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -127,21 +104,10 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-
             const SizedBox(height: 20),
           ],
         ),
       ),
-    );
-  }
-
-  Widget _drawerItem(String title, VoidCallback onTap, Color textColor) {
-    return ListTile(
-      title: Text(
-        title,
-        style: TextStyle(fontFamily: 'Roboto', fontWeight: FontWeight.w500, color: textColor),
-      ),
-      onTap: onTap,
     );
   }
 
@@ -160,9 +126,7 @@ class _HomePageState extends State<HomePage> {
   Widget _productCard(String imagePath, double screenWidth, ColorScheme colorScheme) {
     return Expanded(
       child: GestureDetector(
-        onTap: () {
-         
-        },
+        onTap: () {},
         child: Container(
           padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
@@ -185,10 +149,5 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
-  }
-
-  void _navigateTo(BuildContext context, Widget page) {
-    Navigator.pop(context); // Close the drawer
-    Navigator.push(context, MaterialPageRoute(builder: (context) => page));
   }
 }
